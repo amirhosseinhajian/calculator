@@ -1,5 +1,5 @@
 # Qt Calculator
-<img src="images/calculator.pngf">
+<img src="images/calculator.png">
 
 ## Project setup
 ```

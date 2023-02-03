@@ -9,6 +9,7 @@ class Calculator(QMainWindow):
         super().__init__()
         loader = QUiLoader()
         self.ui = loader.load("front.ui")
+        self.ui.setWindowTitle("Qt Calculator")
         self.ui.show()
         self.ui.btn_sum.clicked.connect(self.add)
         self.ui.btn_equal.clicked.connect(self.equal)
@@ -78,7 +79,7 @@ class Calculator(QMainWindow):
     def sign(self):
         try:
             self.num1 = float(self.ui.tb1.text())
-            self.ui.tb1.setText(str(-self.num1))
+            self.ui.tb1.setText(str(int(-self.num1))) if Calculator.is_int(self.num1) else self.ui.tb1.setText(str(-self.num1))
         except:
             self.ui.tb1.setText("Not valid number!")
 
@@ -88,44 +89,50 @@ class Calculator(QMainWindow):
     def sin(self):
         try:
             self.num1 = round(math.sin(math.radians(float(self.ui.tb1.text()))), 10)
-            self.ui.tb1.setText(str(self.num1))
+            self.ui.tb1.setText(str(int(self.num1))) if Calculator.is_int(self.num1) else self.ui.tb1.setText(str(self.num1))
         except:
             self.ui.tb1.setText("Not valid number!")
 
     def cos(self):
         try:
             self.num1 = round(math.cos(math.radians(float(self.ui.tb1.text()))), 10)
-            self.ui.tb1.setText(str(self.num1))
+            self.ui.tb1.setText(str(int(self.num1))) if Calculator.is_int(self.num1) else self.ui.tb1.setText(str(self.num1))
         except:
             self.ui.tb1.setText("Not valid number!")
 
     def tan(self):
         try:
             self.num1 = round(math.tan(math.radians(float(self.ui.tb1.text()))), 10)
-            self.ui.tb1.setText(str(self.num1))
+            self.ui.tb1.setText(str(int(self.num1))) if Calculator.is_int(self.num1) else self.ui.tb1.setText(str(self.num1))
         except:
             self.ui.tb1.setText("Not valid number!")
 
     def cot(self):
         try:
             self.num1 = round(1 / math.tan(math.radians(float(self.ui.tb1.text()))), 10)
-            self.ui.tb1.setText(str(self.num1))
+            self.ui.tb1.setText(str(int(self.num1))) if Calculator.is_int(self.num1) else self.ui.tb1.setText(str(self.num1))
         except:
             self.ui.tb1.setText("Not valid number!")
 
     def log(self):
         try:
             self.num1 = round(math.log(float(self.ui.tb1.text()), 10), 10)
-            self.ui.tb1.setText(str(self.num1))
+            self.ui.tb1.setText(str(int(self.num1))) if Calculator.is_int(self.num1) else self.ui.tb1.setText(str(self.num1))
         except:
             self.ui.tb1.setText("Not valid number!")
 
     def sqrt(self):
         try:
             self.num1 = round(math.sqrt(float(self.ui.tb1.text())), 10)
-            self.ui.tb1.setText(str(self.num1))
+            self.ui.tb1.setText(str(int(self.num1))) if Calculator.is_int(self.num1) else self.ui.tb1.setText(str(self.num1))
         except:
             self.ui.tb1.setText("Not valid number!")
+    
+    @staticmethod
+    def is_int(number):
+        if number - math.floor(number) == 0:
+            return True
+        return False
 
     def equal(self):
         self.num2 = float(self.ui.tb1.text())
@@ -140,8 +147,7 @@ class Calculator(QMainWindow):
                 result = self.num1 / self.num2
             elif self.operation == "%":
                 result = self.num1 % self.num2
-
-            self.ui.tb1.setText(str(result))
+            self.ui.tb1.setText(str(int(result))) if Calculator.is_int(result) else self.ui.tb1.setText(str(result))
         except:
             self.ui.tb1.setText("Not valid number!")
 

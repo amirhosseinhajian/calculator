@@ -1,8 +1,7 @@
-from PySide6.QtWidgets import *
-from PySide6.QtGui import *
-from PySide6.QtCore import *
-from PySide6.QtUiTools import QUiLoader
 import math
+from functools import partial
+from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtUiTools import QUiLoader
 
 class Calculator(QMainWindow):
     def __init__(self):
@@ -11,6 +10,8 @@ class Calculator(QMainWindow):
         self.ui = loader.load("front.ui")
         self.ui.setWindowTitle("Qt Calculator")
         self.ui.show()
+        self.numbers = [self.ui.btn_0, self.ui.btn_1, self.ui.btn_2, self.ui.btn_3, self.ui.btn_4,
+                        self.ui.btn_5, self.ui.btn_6, self.ui.btn_7, self.ui.btn_8, self.ui.btn_9]
         self.ui.btn_sum.clicked.connect(self.add)
         self.ui.btn_equal.clicked.connect(self.equal)
         self.ui.btn_ac.clicked.connect(self.ac)
@@ -25,17 +26,9 @@ class Calculator(QMainWindow):
         self.ui.btn_sqrt.clicked.connect(self.sqrt)
         self.ui.btn_sub.clicked.connect(self.subb)
         self.ui.btn_log.clicked.connect(self.log)
-        self.ui.btn_0.clicked.connect(self.btn_0)
-        self.ui.btn_1.clicked.connect(self.btn_1)
-        self.ui.btn_2.clicked.connect(self.btn_2)
-        self.ui.btn_3.clicked.connect(self.btn_3)
-        self.ui.btn_4.clicked.connect(self.btn_4)
-        self.ui.btn_5.clicked.connect(self.btn_5)
-        self.ui.btn_6.clicked.connect(self.btn_6)
-        self.ui.btn_7.clicked.connect(self.btn_7)
-        self.ui.btn_8.clicked.connect(self.btn_8)
-        self.ui.btn_9.clicked.connect(self.btn_9)
-        self.ui.btn_dot.clicked.connect(self.btn_dot)
+        for i in range(10):
+            self.numbers[i].clicked.connect(partial(self.num_btn_press, str(i)))
+        self.ui.btn_dot.clicked.connect(partial(self.num_btn_press, "."))
 
     def get_num1(self):
         self.num1 = float(self.ui.tb1.text())
@@ -159,39 +152,6 @@ class Calculator(QMainWindow):
             self.ui.tb1.setText(self.num + n)
         else:
             self.ui.tb1.setText(n)
-
-    def btn_0(self):
-        self.num_btn_press('0')
-
-    def btn_1(self):
-        self.num_btn_press('1')
-
-    def btn_2(self):
-        self.num_btn_press('2')
-
-    def btn_3(self):
-        self.num_btn_press('3')
-
-    def btn_4(self):
-        self.num_btn_press('4')
-
-    def btn_5(self):
-        self.num_btn_press('5')
-
-    def btn_6(self):
-        self.num_btn_press('6')
-
-    def btn_7(self):
-        self.num_btn_press('7')
-
-    def btn_8(self):
-        self.num_btn_press('8')
-
-    def btn_9(self):
-        self.num_btn_press('9')
-
-    def btn_dot(self):
-        self.num_btn_press('.')
 
 if __name__ == "__main__":
     app = QApplication()
